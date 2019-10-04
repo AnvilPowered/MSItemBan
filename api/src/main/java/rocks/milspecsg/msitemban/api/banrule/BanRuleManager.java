@@ -7,7 +7,7 @@ import rocks.milspecsg.msrepository.api.manager.Manager;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public interface BanRuleManager<TKey, TBanRule extends BanRule<TKey>, TItemStack> extends Manager<TKey, TBanRule, BanRuleRepository<TKey, TBanRule>> {
+public interface BanRuleManager<TBanRule extends BanRule<?>, TItemStack> extends Manager<TBanRule, BanRuleRepository<?, TBanRule>> {
 
     CompletableFuture<Optional<TBanRule>> create(TBanRule banRule);
 

@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
+    id 'org.spongepowered.plugin' version '0.8.1'
+}
+group modGroup
+version modVersion
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spongepowered.org/maven' }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    implementation project(':api')
+    implementation project(':MSRepository:msr-api')
+    implementation project(':MSRepository:msr-api:api-config')
+    implementation project(':MSRepository:msr-api:api-repository')
+    implementation project(':MSRepository:msr-api:api-repository:repository-mongodb')
+    implementation project(':MSRepository:msr-sponge')
+    implementation project(':MSRepository:msr-sponge:sponge-config')
+    implementation project(':MSRepository:msr-sponge:sponge-repository')
+
+    implementation 'com.google.inject:guice:4.0'
+    compile 'com.google.guava:guava:28.1-jre'
+    implementation 'org.mongodb:mongodb-driver-sync:3.11.0'
+    implementation 'org.mongodb:mongo-java-driver:3.11.0'
+
+    implementation 'org.mongodb.morphia:morphia:1.3.2'
+
+    compileOnly('org.spongepowered:spongeapi:7.2.0-SNAPSHOT') {
+        exclude(module: 'configurate-gson')
+        exclude(module: 'configurate-yaml')
+    }
+}
+
+shadowJar {
+    archiveName = "${modBaseName}-Sponge-${modVersion}.jar"
+
+    dependencies {
+        include dependency('org.mongodb:bson:3.10.1')
+        include dependency('org.mongodb:mongodb-driver-sync:3.11.0')
+        include dependency('org.mongodb.morphia:morphia:1.3.2')
+        include dependency('org.mongodb:mongo-java-driver:3.11.0')
+        include project(':api')
+        include project(':MSRepository:msr-api')
+        include project(':MSRepository:msr-api:api-config')
+        include project(':MSRepository:msr-api:api-repository')
+        include project(':MSRepository:msr-api:api-repository:repository-mongodb')
+        include project(':MSRepository:msr-sponge')
+        include project(':MSRepository:msr-sponge:sponge-config')
+        include project(':MSRepository:msr-sponge:sponge-repository')
+    }
+}
+
+artifacts {
+    archives shadowJar
+}

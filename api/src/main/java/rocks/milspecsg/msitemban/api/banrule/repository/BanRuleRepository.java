@@ -7,5 +7,23 @@ import java.util.concurrent.CompletableFuture;
 
 public interface BanRuleRepository<TKey, TBanRule extends BanRule<TKey>> extends Repository<TKey, TBanRule> {
 
-    CompletableFuture<Boolean> deleteOne(String name);
+    default String getDefaultIdentifierSingularUpper() {
+        return "Ban Rule";
+    }
+
+    default String getDefaultIdentifierPluralUpper() {
+        return "Ban Rules";
+    }
+
+    default String getDefaultIdentifierSingularLower() {
+        return "ban rule";
+    }
+
+    default String getDefaultIdentifierPluralLower() {
+        return "ban rules";
+    }
+
+    CompletableFuture<Boolean> delete(String name);
+
+
 }

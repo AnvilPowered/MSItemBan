@@ -10,10 +10,10 @@ import rocks.milspecsg.msrepository.service.apimanager.ApiManager;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public abstract class ApiBanRuleManager<TKey, TBanRule extends BanRule<TKey>, TItemStack>
-    extends ApiManager<TKey, TBanRule, BanRuleRepository<TKey, TBanRule>>
-    implements Manager<TKey, TBanRule, BanRuleRepository<TKey, TBanRule>>,
-    BanRuleManager<TKey, TBanRule, TItemStack> {
+public abstract class ApiBanRuleManager<TBanRule extends BanRule<?>, TItemStack>
+    extends ApiManager<TBanRule, BanRuleRepository<?, TBanRule>>
+    implements Manager<TBanRule, BanRuleRepository<?, TBanRule>>,
+    BanRuleManager<TBanRule, TItemStack> {
 
     public ApiBanRuleManager(ConfigurationService configurationService) {
         super(configurationService);
@@ -26,6 +26,6 @@ public abstract class ApiBanRuleManager<TKey, TBanRule extends BanRule<TKey>, TI
 
     @Override
     public CompletableFuture<Boolean> delete(String name) {
-        return getPrimaryRepository().deleteOne(name);
+        return getPrimaryRepository().delete(name);
     }
 }
