@@ -3,10 +3,15 @@ include 'api'
 include 'MSRepository'
 include 'MSRepository:msr-api'
 include 'MSRepository:msr-sponge'
-include 'MSRepository:msr-api:api-config'
 include 'MSRepository:msr-api:api-repository'
-include 'MSRepository:msr-sponge:sponge-config'
+include 'MSRepository:msr-api:api-config'
 include 'MSRepository:msr-sponge:sponge-repository'
+include 'MSRepository:msr-sponge:sponge-config'
+include 'MSRepository:msr-api:api-repository'
+include 'MSRepository:msr-api:api-repository:repository-mongodb'
+include 'MSRepository:msr-api:api-repository:repository-json'
+include 'MSRepository:msr-api:api-repository:repository-h2'
+include 'MSRepository:msr-api:api-repository:repository-mariadb'
 
 
 

@@ -6,4 +6,16 @@ import rocks.milspecsg.msrepository.model.data.dbo.MongoDbo;
 
 @Entity("rules")
 public class MongoBanRule extends MongoDbo implements BanRule<ObjectId> {
+
+    private String name;
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 }

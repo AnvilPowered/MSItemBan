@@ -9,6 +9,9 @@ import rocks.milspecsg.msrepository.model.data.dbo.ObjectWithId;
  */
 public interface BanRule<TKey> extends ObjectWithId<TKey> {
 
+    String getName();
+
+    void setName(String name);
 
 
 }
