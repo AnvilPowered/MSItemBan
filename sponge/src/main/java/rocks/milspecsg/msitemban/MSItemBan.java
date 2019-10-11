@@ -3,7 +3,6 @@ package rocks.milspecsg.msitemban;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
@@ -17,16 +16,19 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import rocks.milspecsg.msitemban.commands.ItemBanCommandManager;
+import rocks.milspecsg.msitemban.datastore.mongodb.CommonMongoContext;
 import rocks.milspecsg.msitemban.model.data.banrule.BanRule;
 import rocks.milspecsg.msitemban.model.data.banrule.MongoBanRule;
-import rocks.milspecsg.msitemban.service.implementation.config.MSConfigurationService;
-import rocks.milspecsg.msitemban.service.banrule.ApiBanRuleManager;
-import rocks.milspecsg.msitemban.service.banrule.repository.ApiMongoBanRuleRepository;
-import rocks.milspecsg.msitemban.service.implementation.banrule.MSSpongeBanRuleManager;
-import rocks.milspecsg.msitemban.service.implementation.banrule.repository.MSSpongeMongoBanRuleRepository;
+import rocks.milspecsg.msitemban.service.common.banrule.CommonBanRuleManager;
+import rocks.milspecsg.msitemban.service.common.banrule.repository.CommonMongoBanRuleRepository;
+import rocks.milspecsg.msitemban.service.sponge.config.MSConfigurationService;
+import rocks.milspecsg.msitemban.service.sponge.banrule.MSSpongeBanRuleManager;
+import rocks.milspecsg.msitemban.service.sponge.banrule.repository.MSSpongeMongoBanRuleRepository;
 import rocks.milspecsg.msrepository.APIConfigurationModule;
 import rocks.milspecsg.msrepository.api.config.ConfigurationService;
+import rocks.milspecsg.msrepository.api.tools.resultbuilder.StringResult;
 import rocks.milspecsg.msrepository.service.config.ApiConfigurationService;
+import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStringResult;
 
 @Plugin(
     id = MSItemBanPluginInfo.id,
@@ -132,7 +134,7 @@ import rocks.milspecsg.msrepository.service.config.ApiConfigurationService;
         }
     }
 
-    private static class MSItemBanModule extends ApiModule<ItemStack, MongoBanRule> {
+    private static class MSItemBanModule extends CommonModule<ItemStack, MongoBanRule, Text> {
         @Override
         protected void configure() {
             super.configure();
@@ -141,15 +143,19 @@ import rocks.milspecsg.msrepository.service.config.ApiConfigurationService;
 
 //            bind(SpongePluginInfo.class).to(MSItemBanPluginInfo.class);
 
-            bind(new TypeLiteral<ApiMongoBanRuleRepository<MongoBanRule>>() {
+            bind(new TypeLiteral<CommonMongoBanRuleRepository<MongoBanRule>>() {
             })
                 .to(new TypeLiteral<MSSpongeMongoBanRuleRepository>() {
                 });
 
-            bind(new TypeLiteral<ApiBanRuleManager<BanRule<?>, ItemStack>>() {
+            bind(new TypeLiteral<CommonBanRuleManager<BanRule<?>, ItemStack, Text>>() {
             })
                 .to(new TypeLiteral<MSSpongeBanRuleManager<BanRule<?>>>() {
                 });
+
+            bind(new TypeLiteral<StringResult<Text>>() {
+            }).to(new TypeLiteral<SpongeStringResult>() {
+            });
 
         }
     }

@@ -10,12 +10,12 @@ import rocks.milspecsg.msrepository.api.config.ConfigurationService;
 import rocks.milspecsg.msrepository.datastore.mongodb.MongoContext;
 
 @Singleton
-public class ApiMongoContext extends MongoContext {
+public class CommonMongoContext extends MongoContext {
 
     private ConfigurationService configurationService;
 
     @Inject
-    public ApiMongoContext(ConfigurationService configurationService) {
+    public CommonMongoContext(ConfigurationService configurationService) {
         this.configurationService = configurationService;
         configurationService.addConfigLoadedListener(this::loadConfig);
     }
@@ -40,7 +40,7 @@ public class ApiMongoContext extends MongoContext {
         morphia.getMapper().getOptions().setObjectFactory(new DefaultCreator() {
             @Override
             protected ClassLoader getClassLoaderForClass() {
-                return ApiMongoContext.this.getClass().getClassLoader();
+                return CommonMongoContext.this.getClass().getClassLoader();
             }
         });
     }

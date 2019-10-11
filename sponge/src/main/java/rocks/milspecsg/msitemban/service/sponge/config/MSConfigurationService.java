@@ -1,4 +1,4 @@
-package rocks.milspecsg.msitemban.service.implementation.config;
+package rocks.milspecsg.msitemban.service.sponge.config;
 
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -17,20 +17,22 @@ public class MSConfigurationService extends ApiConfigurationService {
         super(configLoader);
     }
 
+    private static TypeToken<String> stringTypeToken = new TypeToken<String>() {
+    };
+    private static TypeToken<Integer> integerTypeToken = new TypeToken<Integer>() {
+    };
+    private static TypeToken<Boolean> booleanTypeToken = new TypeToken<Boolean>() {
+    };
+
     @Override
     protected void initNodeTypeMap() {
-        nodeTypeMap.put(ConfigKeys.MONGODB_HOSTNAME, new TypeToken<String>() {
-        });
-        nodeTypeMap.put(ConfigKeys.MONGODB_PORT, new TypeToken<Integer>() {
-        });
-        nodeTypeMap.put(ConfigKeys.MONGODB_DBNAME, new TypeToken<String>() {
-        });
-        nodeTypeMap.put(ConfigKeys.MONGODB_USERNAME, new TypeToken<String>() {
-        });
-        nodeTypeMap.put(ConfigKeys.MONGODB_PASSWORD, new TypeToken<String>() {
-        });
-        nodeTypeMap.put(ConfigKeys.MONGODB_USE_AUTH, new TypeToken<Boolean>() {
-        });
+        nodeTypeMap.put(ConfigKeys.DATA_STORE_NAME, stringTypeToken);
+        nodeTypeMap.put(ConfigKeys.MONGODB_HOSTNAME, stringTypeToken);
+        nodeTypeMap.put(ConfigKeys.MONGODB_PORT, integerTypeToken);
+        nodeTypeMap.put(ConfigKeys.MONGODB_DBNAME, stringTypeToken);
+        nodeTypeMap.put(ConfigKeys.MONGODB_USERNAME, stringTypeToken);
+        nodeTypeMap.put(ConfigKeys.MONGODB_PASSWORD, stringTypeToken);
+        nodeTypeMap.put(ConfigKeys.MONGODB_USE_AUTH, booleanTypeToken);
     }
 
     @Override
@@ -40,6 +42,7 @@ public class MSConfigurationService extends ApiConfigurationService {
 
     @Override
     protected void initDefaultMaps() {
+        defaultStringMap.put(ConfigKeys.DATA_STORE_NAME, "mongodb");
         defaultStringMap.put(ConfigKeys.MONGODB_HOSTNAME, "localhost");
         defaultIntegerMap.put(ConfigKeys.MONGODB_PORT, 27017);
         defaultStringMap.put(ConfigKeys.MONGODB_DBNAME, "msitemban");
@@ -50,16 +53,18 @@ public class MSConfigurationService extends ApiConfigurationService {
 
     @Override
     protected void initNodeNameMap() {
-        nodeNameMap.put(ConfigKeys.MONGODB_HOSTNAME, "mongodb.hostname");
-        nodeNameMap.put(ConfigKeys.MONGODB_PORT, "mongodb.port");
-        nodeNameMap.put(ConfigKeys.MONGODB_DBNAME, "mongodb.dbName");
-        nodeNameMap.put(ConfigKeys.MONGODB_USERNAME, "mongodb.username");
-        nodeNameMap.put(ConfigKeys.MONGODB_PASSWORD, "mongodb.password");
-        nodeNameMap.put(ConfigKeys.MONGODB_USE_AUTH, "mongodb.useAuth");
+        nodeNameMap.put(ConfigKeys.DATA_STORE_NAME, "datastore.name");
+        nodeNameMap.put(ConfigKeys.MONGODB_HOSTNAME, "datastore.mongodb.hostname");
+        nodeNameMap.put(ConfigKeys.MONGODB_PORT, "datastore.mongodb.port");
+        nodeNameMap.put(ConfigKeys.MONGODB_DBNAME, "datastore.mongodb.dbName");
+        nodeNameMap.put(ConfigKeys.MONGODB_USERNAME, "datastore.mongodb.username");
+        nodeNameMap.put(ConfigKeys.MONGODB_PASSWORD, "datastore.mongodb.password");
+        nodeNameMap.put(ConfigKeys.MONGODB_USE_AUTH, "datastore.mongodb.useAuth");
     }
 
     @Override
     protected void initNodeDescriptionMap() {
+        nodeDescriptionMap.put(ConfigKeys.DATA_STORE_NAME, "Name for datastore. Available: mongodb, mariadb, json, nitrite, h2");
         nodeDescriptionMap.put(ConfigKeys.MONGODB_HOSTNAME, "\nMongoDB hostname");
         nodeDescriptionMap.put(ConfigKeys.MONGODB_PORT, "\nMongoDB port");
         nodeDescriptionMap.put(ConfigKeys.MONGODB_DBNAME, "\nMongoDB database name");

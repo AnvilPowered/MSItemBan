@@ -2,6 +2,8 @@ package rocks.milspecsg.msitemban.commands.banrule;
 
 import com.google.inject.Inject;
 import com.google.inject.internal.cglib.proxy.$NoOp;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.Datastore;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -11,14 +13,20 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import rocks.milspecsg.msitemban.api.banrule.BanRuleManager;
+import rocks.milspecsg.msitemban.api.banrule.repository.BanRuleRepository;
 import rocks.milspecsg.msitemban.model.data.banrule.BanRule;
+import rocks.milspecsg.msitemban.model.data.banrule.MongoBanRule;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CreateCommand implements CommandExecutor {
 
     @Inject
-    BanRuleManager<BanRule<?>, ItemStack> banRuleManager;
+    BanRuleManager<BanRule<?>, ItemStack, Text> banRuleManager;
+
+    @Inject
+    BanRuleRepository<ObjectId, BanRule<ObjectId>, Datastore> banRuleRepository;
 
     @Override
     public CommandResult execute(CommandSource source, CommandContext context) throws CommandException {
@@ -26,14 +34,11 @@ public class CreateCommand implements CommandExecutor {
         if (!optionalName.isPresent()) {
             throw new CommandException(Text.of("Name is required"));
         }
-        BanRule<?> banRule = banRuleManager.getPrimaryRepository().generateEmpty();
-        banRule.setName(optionalName.get());
-        banRuleManager.create(banRule).thenAcceptAsync(br -> {
-            if (br.isPresent()) {
-                source.sendMessage(Text.of(TextColors.GREEN, "Succesfully created banrule ", br.get().getName(), " with id ", br.get().getId()));
-            } else {
-                source.sendMessage(Text.of(TextColors.RED, "Error creating banrule"));
-            }
+
+        banRuleManager.create(optionalName.get()).thenAcceptAsync(source::sendMessage);
+
+        banRuleRepository.getAllIds().thenAcceptAsync(ids -> {
+            source.sendMessage(Text.of(ids.stream().map(ObjectId::toString).collect(Collectors.joining(","))));
         });
         return CommandResult.success();
     }

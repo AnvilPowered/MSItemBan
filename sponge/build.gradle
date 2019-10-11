@@ -6,8 +6,6 @@ plugins {
 group modGroup
 version modVersion
 
-sourceCompatibility = 1.8
-
 repositories {
     mavenCentral()
     maven { url 'https://repo.spongepowered.org/maven' }
@@ -17,6 +15,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     implementation project(':api')
+    implementation project(':common')
     implementation project(':MSRepository:msr-api')
     implementation project(':MSRepository:msr-api:api-config')
     implementation project(':MSRepository:msr-api:api-repository')
@@ -47,6 +46,7 @@ shadowJar {
         include dependency('org.mongodb.morphia:morphia:1.3.2')
         include dependency('org.mongodb:mongo-java-driver:3.11.0')
         include project(':api')
+        include project(':common')
         include project(':MSRepository:msr-api')
         include project(':MSRepository:msr-api:api-config')
         include project(':MSRepository:msr-api:api-repository')
