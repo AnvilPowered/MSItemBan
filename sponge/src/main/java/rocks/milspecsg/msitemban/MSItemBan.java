@@ -16,15 +16,17 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import rocks.milspecsg.msitemban.commands.ItemBanCommandManager;
-import rocks.milspecsg.msitemban.datastore.mongodb.CommonMongoContext;
-import rocks.milspecsg.msitemban.model.data.banrule.BanRule;
-import rocks.milspecsg.msitemban.model.data.banrule.MongoBanRule;
+import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
+import rocks.milspecsg.msitemban.model.data.core.banrule.JsonBanRule;
+import rocks.milspecsg.msitemban.model.data.core.banrule.MongoBanRule;
 import rocks.milspecsg.msitemban.service.common.banrule.CommonBanRuleManager;
+import rocks.milspecsg.msitemban.service.common.banrule.repository.CommonJsonBanRuleRepository;
 import rocks.milspecsg.msitemban.service.common.banrule.repository.CommonMongoBanRuleRepository;
+import rocks.milspecsg.msitemban.service.sponge.banrule.repository.MSSpongeJsonBanRuleRepository;
 import rocks.milspecsg.msitemban.service.sponge.config.MSConfigurationService;
 import rocks.milspecsg.msitemban.service.sponge.banrule.MSSpongeBanRuleManager;
 import rocks.milspecsg.msitemban.service.sponge.banrule.repository.MSSpongeMongoBanRuleRepository;
-import rocks.milspecsg.msrepository.APIConfigurationModule;
+import rocks.milspecsg.msrepository.ApiConfigurationModule;
 import rocks.milspecsg.msrepository.api.config.ConfigurationService;
 import rocks.milspecsg.msrepository.api.tools.resultbuilder.StringResult;
 import rocks.milspecsg.msrepository.service.config.ApiConfigurationService;
@@ -82,6 +84,7 @@ import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStr
         Sponge.getServer().getConsole().sendMessage(Text.of(MSItemBanPluginInfo.pluginPrefix, TextColors.YELLOW, "Stopping..."));
         logger.info("Saving all players on server");
 
+        Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "/summon lightning_bolt ~ ~ ~");
 
         removeListeners();
         logger.info("Unregistered listeners");
@@ -123,7 +126,7 @@ import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStr
         Sponge.getScheduler().getScheduledTasks(this).forEach(Task::cancel);
     }
 
-    private static class MSItemBanConfigurationModule extends APIConfigurationModule {
+    private static class MSItemBanConfigurationModule extends ApiConfigurationModule {
         @Override
         protected void configure() {
             super.configure();
@@ -134,7 +137,7 @@ import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStr
         }
     }
 
-    private static class MSItemBanModule extends CommonModule<ItemStack, MongoBanRule, Text> {
+    private static class MSItemBanModule extends CommonModule<ItemStack, MongoBanRule, JsonBanRule, Text> {
         @Override
         protected void configure() {
             super.configure();
@@ -146,6 +149,11 @@ import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStr
             bind(new TypeLiteral<CommonMongoBanRuleRepository<MongoBanRule>>() {
             })
                 .to(new TypeLiteral<MSSpongeMongoBanRuleRepository>() {
+                });
+
+            bind(new TypeLiteral<CommonJsonBanRuleRepository<JsonBanRule>>() {
+            })
+                .to(new TypeLiteral<MSSpongeJsonBanRuleRepository>() {
                 });
 
             bind(new TypeLiteral<CommonBanRuleManager<BanRule<?>, ItemStack, Text>>() {

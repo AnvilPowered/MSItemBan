@@ -1,5 +1,6 @@
 rootProject.name = 'MSItemBan'
 include 'api'
+include 'common'
 include 'sponge'
 include 'MSRepository'
 include 'MSRepository:msr-api'
@@ -13,5 +14,5 @@ include 'MSRepository:msr-api:api-repository:repository-mongodb'
 include 'MSRepository:msr-api:api-repository:repository-json'
 include 'MSRepository:msr-api:api-repository:repository-h2'
 include 'MSRepository:msr-api:api-repository:repository-mariadb'
-include 'common'
+include 'MSRepository:msr-api:api-repository:repository-nitrite'
 

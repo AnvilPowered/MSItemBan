@@ -3,7 +3,7 @@ package rocks.milspecsg.msitemban.service.sponge.banrule;
 import com.google.inject.Inject;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
-import rocks.milspecsg.msitemban.model.data.banrule.BanRule;
+import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
 import rocks.milspecsg.msitemban.service.common.banrule.CommonBanRuleManager;
 import rocks.milspecsg.msrepository.api.config.ConfigurationService;
 

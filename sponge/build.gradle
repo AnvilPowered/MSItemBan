@@ -9,6 +9,7 @@ version modVersion
 repositories {
     mavenCentral()
     maven { url 'https://repo.spongepowered.org/maven' }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -20,14 +21,24 @@ dependencies {
     implementation project(':MSRepository:msr-api:api-config')
     implementation project(':MSRepository:msr-api:api-repository')
     implementation project(':MSRepository:msr-api:api-repository:repository-mongodb')
+    implementation project(':MSRepository:msr-api:api-repository:repository-json')
     implementation project(':MSRepository:msr-sponge')
     implementation project(':MSRepository:msr-sponge:sponge-config')
     implementation project(':MSRepository:msr-sponge:sponge-repository')
 
-    implementation 'com.google.inject:guice:4.0'
+    implementation 'com.google.inject:guice:4.1.0'
     compile 'com.google.guava:guava:28.1-jre'
     implementation 'org.mongodb:mongodb-driver-sync:3.11.0'
     implementation 'org.mongodb:mongo-java-driver:3.11.0'
+    implementation 'com.github.alexstaeding:jsondb-core:master-SNAPSHOT'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.8.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.3'
+    implementation 'org.reflections:reflections:0.9.10'
+    implementation 'commons-jxpath:commons-jxpath:1.3'
+    implementation 'commons-beanutils:commons-beanutils:1.9.2'
+    implementation 'org.javassist:javassist:3.26.0-GA'
+
 
     implementation 'org.mongodb.morphia:morphia:1.3.2'
 
@@ -45,12 +56,27 @@ shadowJar {
         include dependency('org.mongodb:mongodb-driver-sync:3.11.0')
         include dependency('org.mongodb.morphia:morphia:1.3.2')
         include dependency('org.mongodb:mongo-java-driver:3.11.0')
+        include dependency('com.github.alexstaeding:jsondb-core:master-SNAPSHOT')
+        include dependency('com.fasterxml.jackson.core:jackson-annotations:2.8.3')
+        include dependency('com.fasterxml.jackson.core:jackson-core:2.8.3')
+        include dependency('com.fasterxml.jackson.core:jackson-databind:2.8.3')
+        include dependency('org.reflections:reflections:0.9.10')
+        include dependency('commons-jxpath:commons-jxpath:1.3')
+        include dependency('commons-beanutils:commons-beanutils:1.9.2')
+        include dependency('org.javassist:javassist:3.26.0-GA')
+
+        relocate 'com.fasterxml', 'relocated.jackson.com.fasterxml'
+        relocate 'io.jsondb', 'relocated.jsondb.io.jsondb'
+        relocate 'org.reflections', 'relocated.reflections.org.reflections'
+        relocate 'org.javassist', 'relocated.javassist.org.javassist'
+
         include project(':api')
         include project(':common')
         include project(':MSRepository:msr-api')
         include project(':MSRepository:msr-api:api-config')
         include project(':MSRepository:msr-api:api-repository')
         include project(':MSRepository:msr-api:api-repository:repository-mongodb')
+        include project(':MSRepository:msr-api:api-repository:repository-json')
         include project(':MSRepository:msr-sponge')
         include project(':MSRepository:msr-sponge:sponge-config')
         include project(':MSRepository:msr-sponge:sponge-repository')

@@ -1,13 +1,13 @@
 package rocks.milspecsg.msitemban.api.banrule;
 
 import rocks.milspecsg.msitemban.api.banrule.repository.BanRuleRepository;
-import rocks.milspecsg.msitemban.model.data.banrule.BanRule;
+import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
 import rocks.milspecsg.msrepository.api.manager.Manager;
 
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public interface BanRuleManager<TBanRule extends BanRule<?>, TItemStack, TString> extends Manager<TBanRule, BanRuleRepository<?, TBanRule, ?>> {
+public interface BanRuleManager<TBanRule extends BanRule<?>, TItemStack, TString>
+    extends Manager<TBanRule, BanRuleRepository<?, TBanRule, ?>> {
 
     default String getDefaultIdentifierSingularUpper() {
         return "Rule";

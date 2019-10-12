@@ -3,7 +3,7 @@ package rocks.milspecsg.msitemban.service.common.banrule;
 import com.google.inject.Inject;
 import rocks.milspecsg.msitemban.api.banrule.BanRuleManager;
 import rocks.milspecsg.msitemban.api.banrule.repository.BanRuleRepository;
-import rocks.milspecsg.msitemban.model.data.banrule.BanRule;
+import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
 import rocks.milspecsg.msrepository.api.config.ConfigurationService;
 import rocks.milspecsg.msrepository.api.manager.Manager;
 import rocks.milspecsg.msrepository.api.tools.resultbuilder.StringResult;
@@ -29,10 +29,10 @@ public class CommonBanRuleManager<TBanRule extends BanRule<?>, TItemStack, TStri
     public CompletableFuture<TString> create(String name) {
         return CompletableFuture.supplyAsync(() -> {
 
-            TBanRule toInsert = getPrimaryRepository().generateEmpty();
+            TBanRule toInsert = getPrimaryStorageService().generateEmpty();
             toInsert.setName(name);
 
-            Optional<TBanRule> optionalBanRule = getPrimaryRepository().insertOne(toInsert).join();
+            Optional<TBanRule> optionalBanRule = getPrimaryStorageService().insertOne(toInsert).join();
 
             if (optionalBanRule.isPresent()) {
                 return stringResult.builder()
@@ -49,7 +49,7 @@ public class CommonBanRuleManager<TBanRule extends BanRule<?>, TItemStack, TStri
 
     @Override
     public CompletableFuture<TString> delete(String name) {
-        return getPrimaryRepository().delete(name).thenApply(result -> {
+        return getPrimaryStorageService().delete(name).thenApply(result -> {
             if (result) {
                 return stringResult.builder()
                     .gray().append("Succesfully deleted banrule ")

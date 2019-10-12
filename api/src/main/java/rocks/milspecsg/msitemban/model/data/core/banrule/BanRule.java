@@ -1,6 +1,6 @@
-package rocks.milspecsg.msitemban.model.data.banrule;
+package rocks.milspecsg.msitemban.model.data.core.banrule;
 
-import rocks.milspecsg.msitemban.model.data.serializeditemstack.SerializedItemStack;
+import rocks.milspecsg.msitemban.model.data.core.serializeditemstack.SerializedItemStack;
 import rocks.milspecsg.msrepository.model.data.dbo.ObjectWithId;
 
 import java.util.List;

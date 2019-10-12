@@ -1,14 +1,15 @@
-package rocks.milspecsg.msitemban.model.data.banrule;
+package rocks.milspecsg.msitemban.model.data.core.banrule;
 
+import com.google.common.collect.ImmutableList;
+import io.jsondb.annotation.Document;
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Entity;
-import rocks.milspecsg.msitemban.model.data.serializeditemstack.SerializedItemStack;
-import rocks.milspecsg.msrepository.model.data.dbo.MongoDbo;
+import rocks.milspecsg.msitemban.model.data.core.serializeditemstack.SerializedItemStack;
+import rocks.milspecsg.msrepository.model.data.dbo.JsonDbo;
 
 import java.util.List;
 
-@Entity("rules")
-public class MongoBanRule extends MongoDbo implements BanRule<ObjectId> {
+@Document(collection = "rules", schemaVersion = "1.0")
+public class JsonBanRule extends JsonDbo implements BanRule<ObjectId> {
 
     private String name;
     private List<SerializedItemStack> itemStacks;
@@ -21,6 +22,7 @@ public class MongoBanRule extends MongoDbo implements BanRule<ObjectId> {
     @Override
     public void setName(String name) {
         this.name = name;
+        prePersist();
     }
 
     @Override
@@ -31,5 +33,6 @@ public class MongoBanRule extends MongoDbo implements BanRule<ObjectId> {
     @Override
     public void setItemStacks(List<SerializedItemStack> itemStacks) {
         this.itemStacks = itemStacks;
+        prePersist();
     }
 }
