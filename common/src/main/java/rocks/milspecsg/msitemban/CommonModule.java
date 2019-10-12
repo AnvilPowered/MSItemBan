@@ -22,7 +22,7 @@ import rocks.milspecsg.msrepository.datastore.DataStoreContext;
 @SuppressWarnings({"unchecked", "UnstableApiUsage"})
 public class CommonModule<TItemStack,
     TMongoBanRule extends BanRule<ObjectId>,
-    TJsonBanRule extends BanRule<ObjectId>,
+    TJsonBanRule extends BanRule<String>,
     TString> extends AbstractModule {
 
     @Override
@@ -47,7 +47,7 @@ public class CommonModule<TItemStack,
             },
             new TypeToken<BanRuleRepository<?, BanRule<?>, ?>>(getClass()) {
             },
-            new TypeToken<BanRuleRepository<ObjectId, BanRule<ObjectId>, JsonDBOperations>>() {
+            new TypeToken<BanRuleRepository<String, BanRule<String>, JsonDBOperations>>() {
             },
             new TypeToken<CommonJsonBanRuleRepository<TJsonBanRule>>(getClass()) {
             },

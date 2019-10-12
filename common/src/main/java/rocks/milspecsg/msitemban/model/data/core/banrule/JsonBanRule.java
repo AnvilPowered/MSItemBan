@@ -1,15 +1,13 @@
 package rocks.milspecsg.msitemban.model.data.core.banrule;
 
-import com.google.common.collect.ImmutableList;
 import io.jsondb.annotation.Document;
-import org.bson.types.ObjectId;
 import rocks.milspecsg.msitemban.model.data.core.serializeditemstack.SerializedItemStack;
 import rocks.milspecsg.msrepository.model.data.dbo.JsonDbo;
 
 import java.util.List;
 
 @Document(collection = "rules", schemaVersion = "1.0")
-public class JsonBanRule extends JsonDbo implements BanRule<ObjectId> {
+public class JsonBanRule extends JsonDbo implements BanRule<String> {
 
     private String name;
     private List<SerializedItemStack> itemStacks;

@@ -10,10 +10,10 @@ import rocks.milspecsg.msrepository.service.apirepository.ApiJsonRepository;
 
 import java.util.concurrent.CompletableFuture;
 
-public abstract class CommonJsonBanRuleRepository<TBanRule extends BanRule<ObjectId>>
-    extends CommonBanRuleRepository<ObjectId, TBanRule, JsonDBOperations>
-    implements ApiJsonRepository<TBanRule, BanRuleCacheService<ObjectId, TBanRule>>,
-    BanRuleRepository<ObjectId, TBanRule, JsonDBOperations> {
+public abstract class CommonJsonBanRuleRepository<TBanRule extends BanRule<String>>
+    extends CommonBanRuleRepository<String, TBanRule, JsonDBOperations>
+    implements ApiJsonRepository<TBanRule, BanRuleCacheService<String, TBanRule>>,
+    BanRuleRepository<String, TBanRule, JsonDBOperations> {
 
     public CommonJsonBanRuleRepository(DataStoreContext<JsonDBOperations> dataStoreContext) {
         super(dataStoreContext);

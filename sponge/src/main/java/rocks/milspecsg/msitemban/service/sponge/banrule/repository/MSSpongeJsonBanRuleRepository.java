@@ -16,8 +16,8 @@ public class MSSpongeJsonBanRuleRepository extends CommonJsonBanRuleRepository<J
     }
 
     @Override
-    public ObjectId assertType(Object id) throws ClassCastException {
-        return (ObjectId) id;
+    public String assertType(Object id) throws ClassCastException {
+        return id.toString();
     }
 
     @Override
@@ -25,10 +25,10 @@ public class MSSpongeJsonBanRuleRepository extends CommonJsonBanRuleRepository<J
         return new JsonBanRule();
     }
 
-    private static TypeToken<ObjectId> typeTokenTKey = new TypeToken<ObjectId>() {};
+    private static TypeToken<String> typeTokenTKey = new TypeToken<String>() {};
 
     @Override
-    public TypeToken<ObjectId> getTypeTokenTKey() {
+    public TypeToken<String> getTypeTokenTKey() {
         return typeTokenTKey;
     }
 

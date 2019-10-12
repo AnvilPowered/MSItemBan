@@ -30,7 +30,7 @@ dependencies {
     compile 'com.google.guava:guava:28.1-jre'
     implementation 'org.mongodb:mongodb-driver-sync:3.11.0'
     implementation 'org.mongodb:mongo-java-driver:3.11.0'
-    implementation 'com.github.alexstaeding:jsondb-core:master-SNAPSHOT'
+    implementation 'com.github.alexstaeding:jsondb-core:0ef9bb17d321d93658dc6afb80bb6899942025d1'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.3'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.8.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.3'
@@ -56,7 +56,7 @@ shadowJar {
         include dependency('org.mongodb:mongodb-driver-sync:3.11.0')
         include dependency('org.mongodb.morphia:morphia:1.3.2')
         include dependency('org.mongodb:mongo-java-driver:3.11.0')
-        include dependency('com.github.alexstaeding:jsondb-core:master-SNAPSHOT')
+        include dependency('com.github.alexstaeding:jsondb-core:0ef9bb17d321d93658dc6afb80bb6899942025d1')
         include dependency('com.fasterxml.jackson.core:jackson-annotations:2.8.3')
         include dependency('com.fasterxml.jackson.core:jackson-core:2.8.3')
         include dependency('com.fasterxml.jackson.core:jackson-databind:2.8.3')

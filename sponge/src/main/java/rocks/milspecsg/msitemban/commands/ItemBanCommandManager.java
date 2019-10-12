@@ -6,6 +6,7 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 import rocks.milspecsg.msitemban.commands.banrule.CreateCommand;
+import rocks.milspecsg.msitemban.commands.banrule.ListCommand;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +17,9 @@ public class ItemBanCommandManager implements CommandManager {
 
     @Inject
     CreateCommand createCommand;
+
+    @Inject
+    ListCommand listCommand;
 
     public static Map<List<String>, CommandSpec> subCommands = new HashMap<>();
 
@@ -29,6 +33,12 @@ public class ItemBanCommandManager implements CommandManager {
                 GenericArguments.string(Text.of("name"))
             )
             .executor(createCommand)
+            .build()
+        );
+
+        subCommands.put(Arrays.asList("list", "l"), CommandSpec.builder()
+            .description(Text.of("Lists ban rules"))
+            .executor(listCommand)
             .build()
         );
 

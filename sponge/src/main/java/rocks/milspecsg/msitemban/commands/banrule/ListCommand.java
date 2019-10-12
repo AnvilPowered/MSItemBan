@@ -1,6 +1,7 @@
 package rocks.milspecsg.msitemban.commands.banrule;
 
 import com.google.inject.Inject;
+import io.jsondb.JsonDBOperations;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.spongepowered.api.command.CommandException;
@@ -17,19 +18,21 @@ import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class CreateCommand implements CommandExecutor {
+public class ListCommand implements CommandExecutor {
 
-    @Inject
-    BanRuleManager<BanRule<?>, ItemStack, Text> banRuleManager;
+  @Inject
+  BanRuleManager<BanRule<?>, ItemStack, Text> banRuleManager;
 
-    @Override
-    public CommandResult execute(CommandSource source, CommandContext context) throws CommandException {
-        Optional<String> optionalName = context.getOne(Text.of("name"));
-        if (!optionalName.isPresent()) {
-            throw new CommandException(Text.of("Name is required"));
-        }
+  @Inject
+  BanRuleRepository<String, BanRule<String>, JsonDBOperations> banRuleStorageService;
 
-        banRuleManager.create(optionalName.get()).thenAcceptAsync(source::sendMessage);
-        return CommandResult.success();
-    }
+  @Override
+  public CommandResult execute(CommandSource source, CommandContext context) throws CommandException {
+    banRuleManager.getPrimaryStorageService().getAllIds();
+
+    banRuleStorageService.getAllIds().thenAcceptAsync(ids -> {
+      source.sendMessage(Text.of(String.join(",\n", ids)));
+    });
+    return CommandResult.success();
+  }
 }
