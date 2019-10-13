@@ -13,8 +13,8 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CommonBanRuleManager<TBanRule extends BanRule<?>, TItemStack, TString>
-    extends ApiManager<TBanRule, BanRuleRepository<?, TBanRule, ?>>
-    implements Manager<TBanRule, BanRuleRepository<?, TBanRule, ?>>,
+    extends ApiManager<TBanRule, BanRuleRepository<?, TBanRule, ?, ?>>
+    implements Manager<TBanRule, BanRuleRepository<?, TBanRule, ?, ?>>,
     BanRuleManager<TBanRule, TItemStack, TString> {
 
     @Inject

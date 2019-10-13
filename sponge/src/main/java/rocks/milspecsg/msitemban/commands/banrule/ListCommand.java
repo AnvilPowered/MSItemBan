@@ -14,25 +14,26 @@ import org.spongepowered.api.text.Text;
 import rocks.milspecsg.msitemban.api.banrule.BanRuleManager;
 import rocks.milspecsg.msitemban.api.banrule.repository.BanRuleRepository;
 import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
+import rocks.milspecsg.msrepository.datastore.json.JsonConfig;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ListCommand implements CommandExecutor {
 
-  @Inject
-  BanRuleManager<BanRule<?>, ItemStack, Text> banRuleManager;
+    @Inject
+    BanRuleManager<BanRule<?>, ItemStack, Text> banRuleManager;
 
-  @Inject
-  BanRuleRepository<String, BanRule<String>, JsonDBOperations> banRuleStorageService;
+    @Inject
+    BanRuleRepository<String, BanRule<String>, JsonDBOperations, JsonConfig> banRuleStorageService;
 
-  @Override
-  public CommandResult execute(CommandSource source, CommandContext context) throws CommandException {
-    banRuleManager.getPrimaryStorageService().getAllIds();
+    @Override
+    public CommandResult execute(CommandSource source, CommandContext context) throws CommandException {
+        banRuleManager.getPrimaryStorageService().getAllIds();
 
-    banRuleStorageService.getAllIds().thenAcceptAsync(ids -> {
-      source.sendMessage(Text.of(String.join(",\n", ids)));
-    });
-    return CommandResult.success();
-  }
+        banRuleStorageService.getAllIds().thenAcceptAsync(ids -> {
+            source.sendMessage(Text.of(String.join(",\n", ids)));
+        });
+        return CommandResult.success();
+    }
 }

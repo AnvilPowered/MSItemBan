@@ -7,7 +7,7 @@ import rocks.milspecsg.msrepository.api.manager.Manager;
 import java.util.concurrent.CompletableFuture;
 
 public interface BanRuleManager<TBanRule extends BanRule<?>, TItemStack, TString>
-    extends Manager<TBanRule, BanRuleRepository<?, TBanRule, ?>> {
+    extends Manager<TBanRule, BanRuleRepository<?, TBanRule, ?, ?>> {
 
     default String getDefaultIdentifierSingularUpper() {
         return "Rule";

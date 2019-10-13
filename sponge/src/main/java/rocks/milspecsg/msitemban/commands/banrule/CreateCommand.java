@@ -1,8 +1,6 @@
 package rocks.milspecsg.msitemban.commands.banrule;
 
 import com.google.inject.Inject;
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.Datastore;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -11,11 +9,9 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import rocks.milspecsg.msitemban.api.banrule.BanRuleManager;
-import rocks.milspecsg.msitemban.api.banrule.repository.BanRuleRepository;
 import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CreateCommand implements CommandExecutor {
 

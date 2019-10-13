@@ -2,7 +2,11 @@ package rocks.milspecsg.msitemban;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
+import io.jsondb.JsonDBOperations;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.Datastore;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
@@ -20,15 +24,18 @@ import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
 import rocks.milspecsg.msitemban.model.data.core.banrule.JsonBanRule;
 import rocks.milspecsg.msitemban.model.data.core.banrule.MongoBanRule;
 import rocks.milspecsg.msitemban.service.common.banrule.CommonBanRuleManager;
-import rocks.milspecsg.msitemban.service.common.banrule.repository.CommonJsonBanRuleRepository;
-import rocks.milspecsg.msitemban.service.common.banrule.repository.CommonMongoBanRuleRepository;
-import rocks.milspecsg.msitemban.service.sponge.banrule.repository.MSSpongeJsonBanRuleRepository;
-import rocks.milspecsg.msitemban.service.sponge.config.MSConfigurationService;
+import rocks.milspecsg.msitemban.service.config.ConfigKeys;
 import rocks.milspecsg.msitemban.service.sponge.banrule.MSSpongeBanRuleManager;
-import rocks.milspecsg.msitemban.service.sponge.banrule.repository.MSSpongeMongoBanRuleRepository;
+import rocks.milspecsg.msitemban.service.sponge.config.MSConfigurationService;
 import rocks.milspecsg.msrepository.ApiConfigurationModule;
+import rocks.milspecsg.msrepository.BasicPluginInfo;
+import rocks.milspecsg.msrepository.PluginInfo;
 import rocks.milspecsg.msrepository.api.config.ConfigurationService;
 import rocks.milspecsg.msrepository.api.tools.resultbuilder.StringResult;
+import rocks.milspecsg.msrepository.datastore.DataStoreConfig;
+import rocks.milspecsg.msrepository.datastore.DataStoreContext;
+import rocks.milspecsg.msrepository.datastore.json.JsonConfig;
+import rocks.milspecsg.msrepository.datastore.mongodb.MongoConfig;
 import rocks.milspecsg.msrepository.service.config.ApiConfigurationService;
 import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStringResult;
 
@@ -39,7 +46,8 @@ import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStr
     description = MSItemBanPluginInfo.description,
     authors = MSItemBanPluginInfo.authors,
     url = MSItemBanPluginInfo.url
-)public class MSItemBan {
+)
+public class MSItemBan {
     @Override
     public String toString() {
         return MSItemBanPluginInfo.id;
@@ -67,7 +75,6 @@ import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStr
         initSingletonServices();
         initListeners();
         initCommands();
-
         loadConfig();
         Sponge.getServer().getConsole().sendMessage(Text.of(MSItemBanPluginInfo.pluginPrefix, TextColors.YELLOW, "Done"));
     }
@@ -83,8 +90,6 @@ import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStr
     public void stop(GameStoppingEvent event) {
         Sponge.getServer().getConsole().sendMessage(Text.of(MSItemBanPluginInfo.pluginPrefix, TextColors.YELLOW, "Stopping..."));
         logger.info("Saving all players on server");
-
-        Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "/summon lightning_bolt ~ ~ ~");
 
         removeListeners();
         logger.info("Unregistered listeners");
@@ -142,24 +147,14 @@ import rocks.milspecsg.msrepository.service.sponge.tools.resultbuilder.SpongeStr
         protected void configure() {
             super.configure();
 
-//            bind(PlayerListener.class);
+            bind(BasicPluginInfo.class).to(MSItemBanPluginInfo.class);
 
-//            bind(SpongePluginInfo.class).to(MSItemBanPluginInfo.class);
-
-            bind(new TypeLiteral<CommonMongoBanRuleRepository<MongoBanRule>>() {
-            })
-                .to(new TypeLiteral<MSSpongeMongoBanRuleRepository>() {
-                });
-
-            bind(new TypeLiteral<CommonJsonBanRuleRepository<JsonBanRule>>() {
-            })
-                .to(new TypeLiteral<MSSpongeJsonBanRuleRepository>() {
-                });
+            bind(new TypeLiteral<PluginInfo<Text>>() {
+            }).to(MSItemBanPluginInfo.class);
 
             bind(new TypeLiteral<CommonBanRuleManager<BanRule<?>, ItemStack, Text>>() {
-            })
-                .to(new TypeLiteral<MSSpongeBanRuleManager<BanRule<?>>>() {
-                });
+            }).to(new TypeLiteral<MSSpongeBanRuleManager<BanRule<?>>>() {
+            });
 
             bind(new TypeLiteral<StringResult<Text>>() {
             }).to(new TypeLiteral<SpongeStringResult>() {
