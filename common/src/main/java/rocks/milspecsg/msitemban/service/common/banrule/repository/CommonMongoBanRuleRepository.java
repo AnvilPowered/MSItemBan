@@ -6,7 +6,6 @@ import org.mongodb.morphia.Datastore;
 import rocks.milspecsg.msitemban.api.banrule.cache.BanRuleCacheService;
 import rocks.milspecsg.msitemban.api.banrule.repository.BanRuleRepository;
 import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
-import rocks.milspecsg.msrepository.datastore.DataStoreConfig;
 import rocks.milspecsg.msrepository.datastore.DataStoreContext;
 import rocks.milspecsg.msrepository.datastore.mongodb.MongoConfig;
 import rocks.milspecsg.msrepository.service.apirepository.ApiMongoRepository;

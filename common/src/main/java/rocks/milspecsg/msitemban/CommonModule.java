@@ -38,7 +38,7 @@ public class CommonModule<TItemStack,
             },
             new TypeToken<BanRuleRepository<?, BanRule<?>, ?, ?>>(getClass()) {
             },
-            new TypeToken<BanRuleRepository<ObjectId, BanRule<ObjectId>, Datastore, MongoConfig>>() {
+            new TypeToken<BanRuleRepository<ObjectId, BanRule<ObjectId>, Datastore, MongoConfig>>(getClass()) {
             },
             new TypeToken<CommonMongoBanRuleRepository<TMongoBanRule>>(getClass()) {
             },
@@ -50,7 +50,7 @@ public class CommonModule<TItemStack,
             },
             new TypeToken<BanRuleRepository<?, BanRule<?>, ?, ?>>(getClass()) {
             },
-            new TypeToken<BanRuleRepository<String, BanRule<String>, JsonDBOperations, JsonConfig>>() {
+            new TypeToken<BanRuleRepository<String, BanRule<String>, JsonDBOperations, JsonConfig>>(getClass()) {
             },
             new TypeToken<CommonJsonBanRuleRepository<TJsonBanRule>>(getClass()) {
             },

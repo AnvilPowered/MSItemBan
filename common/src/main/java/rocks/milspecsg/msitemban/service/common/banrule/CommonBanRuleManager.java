@@ -10,9 +10,10 @@ import rocks.milspecsg.msrepository.api.tools.resultbuilder.StringResult;
 import rocks.milspecsg.msrepository.service.apimanager.ApiManager;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class CommonBanRuleManager<TBanRule extends BanRule<?>, TItemStack, TString>
+public abstract class CommonBanRuleManager<TBanRule extends BanRule<?>, TItemStack, TString>
     extends ApiManager<TBanRule, BanRuleRepository<?, TBanRule, ?, ?>>
     implements Manager<TBanRule, BanRuleRepository<?, TBanRule, ?, ?>>,
     BanRuleManager<TBanRule, TItemStack, TString> {
