@@ -4,9 +4,13 @@ import rocks.milspecsg.msitemban.api.banrule.repository.BanRuleRepository;
 import rocks.milspecsg.msitemban.model.data.core.banrule.BanRule;
 import rocks.milspecsg.msrepository.api.manager.Manager;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface BanRuleManager<TBanRule extends BanRule<?>, TItemStack, TString>
+public interface BanRuleManager<
+    TBanRule extends BanRule<?>,
+    TItemStack,
+    TString>
     extends Manager<TBanRule, BanRuleRepository<?, TBanRule, ?, ?>> {
 
     default String getDefaultIdentifierSingularUpper() {
@@ -28,6 +32,8 @@ public interface BanRuleManager<TBanRule extends BanRule<?>, TItemStack, TString
     CompletableFuture<TString> create(String name);
 
     CompletableFuture<TString> delete(String name);
+
+    CompletableFuture<List<TString>> list();
 
     /**
      * @return Whether the provided item stack is allowed

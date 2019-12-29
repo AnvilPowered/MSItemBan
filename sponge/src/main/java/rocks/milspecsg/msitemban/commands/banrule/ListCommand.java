@@ -24,15 +24,11 @@ public class ListCommand implements CommandExecutor {
     @Inject
     BanRuleManager<BanRule<?>, ItemStack, Text> banRuleManager;
 
-    @Inject
-    BanRuleRepository<String, BanRule<String>, JsonDBOperations, JsonConfig> banRuleStorageService;
-
     @Override
     public CommandResult execute(CommandSource source, CommandContext context) throws CommandException {
-        banRuleManager.getPrimaryStorageService().getAllIds();
 
-        banRuleStorageService.getAllIds().thenAcceptAsync(ids -> {
-            source.sendMessage(Text.of(String.join(",\n", ids)));
+        banRuleManager.getPrimaryStorageService().getAllIds().thenAcceptAsync(ids -> {
+            source.sendMessage(Text.of(ids.stream().map(Object::toString).collect(Collectors.joining(",\n"))));
         });
         return CommandResult.success();
     }
